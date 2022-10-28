@@ -1,0 +1,170 @@
+<div class="header">
+  <!--Content before waves-->
+  <main class="form-signin w-100 m-auto">
+    <div>
+      <form
+        #miFormulario="ngForm"
+        [formGroup]="form"
+        (ngSubmit)="agregarUsuario(miFormulario)"
+        novalidate
+      >
+        <h2 class="h3 pt-4 mb-3 fw-normal">Registrarme</h2>
+
+        <div class="form-floating">
+          <input
+            formControlName="nombre"
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="Ingrese su nombre"
+            name="nombre"
+            [(ngModel)]="servicio.datosUser.nombre"
+          />
+          <label class="text-dark" for="floatingInput">Nombre</label>
+
+          <div
+            class="alert alert-danger mt-2"
+            *ngIf="
+              form.controls['nombre'].invalid &&
+              (form.controls['nombre'].dirty || form.controls['nombre'].touched)
+            "
+          >
+            <span> El nombre es obligatorio </span>
+          </div>
+        </div>
+
+        <div class="mt-4 form-floating">
+          <input
+            formControlName="apellido"
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="Ingrese su apellido"
+            name="apellido"
+            [(ngModel)]="servicio.datosUser.apellido"
+          />
+          <label class="text-dark" for="floatingInput">Apellido</label>
+
+          <div
+            class="alert alert-danger mt-2"
+            *ngIf="
+              form.controls['apellido'].invalid &&
+              (form.controls['apellido'].dirty ||
+                form.controls['apellido'].touched)
+            "
+          >
+            <span> El apellido es obligatorio </span>
+          </div>
+        </div>
+
+        <div class="mt-4 form-floating">
+          <input
+            formControlName="correo"
+            type="email"
+            class="form-control"
+            name="correo"
+            id="floatingInput"
+            placeholder="name@example.com"
+            [(ngModel)]="servicio.datosUser.correo"
+          />
+          <label class="text-dark" for="floatingInput"
+            >Correo Electrónico</label
+          >
+
+          <div
+            class="alert alert-danger mt-2"
+            *ngIf="
+              form.controls['correo'].invalid &&
+              (form.controls['correo'].dirty || form.controls['correo'].touched)
+            "
+          >
+            <span> El correo es obligatorio </span>
+          </div>
+        </div>
+
+        <div class="mt-4 form-floating">
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            name="password"
+            id="floatingPassword"
+            placeholder="Password"
+            [(ngModel)]="servicio.datosUser.password"
+          />
+          <label class="text-dark" for="floatingPassword">Contraseña</label>
+
+          <div
+            class="alert alert-danger mt-2"
+            *ngIf="
+              form.controls['password'].invalid &&
+              (form.controls['password'].dirty ||
+                form.controls['password'].touched)
+            "
+          >
+            <span> La contraseña es obligatoria </span>
+          </div>
+        </div>
+
+        <h6 class="txt">
+          ¿Ya tienes una cuenta? <a routerLink="/login">Iniciar Sesión</a>
+        </h6>
+        <button
+          type="submit"
+          class="btn_login w-100 btn btn-lg text-white"
+          [disabled]="form.pristine || form.invalid"
+        >
+          Continuar
+        </button>
+      </form>
+      <br />
+      <br />
+      <div class="back containe">
+        <i class="bi bi-arrow-left-circle-fill back pe-2"></i>
+        <a routerLink="">volver</a>
+      </div>
+    </div>
+  </main>
+
+  <!--Waves Container-->
+  <div>
+    <svg
+      class="waves"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 24 150 28"
+      preserveAspectRatio="none"
+      shape-rendering="auto"
+    >
+      <defs>
+        <path
+          id="gentle-wave"
+          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+        />
+      </defs>
+      <g class="parallax">
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="0"
+          fill="rgba(255,255,255,0.7"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="3"
+          fill="rgba(255,255,255,0.5)"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="5"
+          fill="rgba(255,255,255,0.3)"
+        />
+        <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+      </g>
+    </svg>
+  </div>
+  <!--Waves end-->
+</div>
+<!--Header ends-->

@@ -1,0 +1,61 @@
+<br />
+<br />
+<br />
+<br />
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="card">
+        <div class="card-body text-center">
+          <a routerLink="/user" class="btn btn-info float-start"> Atras </a>
+          <span class="titulo">Mis citas</span>
+          <table class="table table-striped" *ngIf="listaCitas.length > 0">
+            <thead>
+              <tr>
+                <!-- titulos -->
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Identificación</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Email</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cita of listaCitas">
+                <td class="p-1">{{ cita.nombres }}</td>
+                <td class="p-1">{{ cita.apellidos }}</td>
+                <td class="p-1">{{ cita.cc }}</td>
+                <td class="p-1">{{ cita.telefono }}</td>
+                <td class="p-1">{{ cita.email }}</td>
+                <td class="p-1">{{ cita.especialidad }}</td>
+                <td class="p-1">{{ cita.fecha }}</td>
+                <td class="p-1">{{ cita.time }}</td>
+                <td>
+                  <i
+                    (click)="borrarcita(cita._id)"
+                    class="bi bi-trash m-1 text-danger"
+                  ></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5
+            style="text-align: start; margin-top: 10px"
+            *ngIf="listaCitas.length == 0"
+          >
+            No tienes citas por el momento
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="msg == true">
+    <div class="alert alert-danger" role="alert">
+      <h6 class="text-center">Cita eliminada con éxito</h6>
+    </div>
+  </ng-container>
+</div>

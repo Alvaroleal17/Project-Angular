@@ -1,0 +1,235 @@
+<br />
+<br />
+<br />
+<br />
+<div class="container-fluid mt-5">
+  <div class="row ms-5">
+    <div class="ms-5 col-11 text-center">
+      <span class="titulo">Generar Incapacidad</span>
+      <br />
+      <br />
+      <form
+        class="container"
+        [formGroup]="crearIncapacidad"
+        #miForm="ngForm"
+        (ngSubmit)="agregarIncapacidad()"
+        novalidate
+      >
+        <div class="row">
+          <div class="col">
+            <label class="top-text"
+              >Tipo de documento <span class="text-danger">*</span></label
+            >
+            <select
+              type="text"
+              class="form-control"
+              formControlName="documento"
+              [(ngModel)]="servicioIncap.datosIncap.documento"
+            >
+              <option value="Cedula de Ciudadania">Cédula de Ciudadanía</option>
+              <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+              <option value="Registro Civil">Registro Civil</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('documento')?.hasError('required') &&
+                crearIncapacidad.get('documento')?.touched
+              "
+            >
+              <span>El tipo de documento es <strong>obligatorio</strong></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <label style="margin-right: 120px; padding-bottom: 10px"
+              >Número de documento<span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="numberDoc"
+              [(ngModel)]="servicioIncap.datosIncap.numberDoc"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('numberDoc')?.hasError('required') &&
+                crearIncapacidad.get('numberDoc')?.touched
+              "
+            >
+              <span
+                >El número de documento es <strong>obligatorio</strong></span
+              >
+            </div>
+          </div>
+
+          <div class="col">
+            <label style="margin-right: 210px; padding-bottom: 10px"
+              >Nombres <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nombres"
+              [(ngModel)]="servicioIncap.datosIncap.nombres"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('nombres')?.hasError('required') &&
+                crearIncapacidad.get('nombres')?.touched
+              "
+            >
+              <span>Los nombres son <strong>obligatorios</strong></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <label style="margin-right: 210px; padding-bottom: 10px"
+              >Apellidos <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="apellidos"
+              [(ngModel)]="servicioIncap.datosIncap.apellidos"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('apellidos')?.hasError('required') &&
+                crearIncapacidad.get('apellidos')?.touched
+              "
+            >
+              <span>Los apellidos son <strong>obligatorios</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+          <div class="col">
+            <label class="top-text"
+              >Fecha de Incapacidad <span class="text-danger">*</span></label
+            >
+            <input
+              type="date"
+              class="form-control"
+              formControlName="incapacidad"
+              [(ngModel)]="servicioIncap.datosIncap.incapacidad"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('incapacidad')?.hasError('required') &&
+                crearIncapacidad.get('incapacidad')?.touched
+              "
+            >
+              <span
+                >La Fecha de incapacidad es<strong> obligatoria</strong></span
+              >
+            </div>
+          </div>
+
+          <div class="col">
+            <label style="margin-right: 160px; padding-bottom: 10px"
+              >Días Solicitados <span class="text-danger">*</span></label
+            >
+            <input
+              type="number"
+              class="form-control"
+              formControlName="dias"
+              min="1"
+              [(ngModel)]="servicioIncap.datosIncap.dias"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('dias')?.hasError('required') &&
+                crearIncapacidad.get('dias')?.touched
+              "
+            >
+              <span>Indicar los días es <strong>obligatorio</strong></span>
+            </div>
+          </div>
+
+          <div class="col">
+            <label class="top-text"
+              >Tipo de Incapacidad <span class="text-danger">*</span></label
+            >
+            <select
+              type="text"
+              class="form-control"
+              formControlName="tipo"
+              [(ngModel)]="servicioIncap.datosIncap.tipo"
+            >
+              <option value="Incapacidad">Incapacidad</option>
+              <option value="Licencia de Maternidad">
+                Licencia de Maternidad
+              </option>
+              <option value="Licencia de Paternidad">
+                Licencia de Paternidad
+              </option>
+            </select>
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('tipo')?.hasError('required') &&
+                crearIncapacidad.get('tipo')?.touched
+              "
+            >
+              <span
+                >Elije el tipo de incapacidad, es<strong>
+                  obligatorio</strong
+                ></span
+              >
+            </div>
+          </div>
+
+          <div class="col">
+            <label class="top-text"
+              >Correo electrónico <span class="text-danger">*</span></label
+            >
+            <input
+              type="email"
+              class="form-control"
+              formControlName="correo"
+              [(ngModel)]="servicioIncap.datosIncap.correo"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearIncapacidad.get('correo')?.hasError('required') &&
+                crearIncapacidad.get('correo')?.touched
+              "
+            >
+              <span>El correo electrónico es <strong>obligatorio</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="col">
+          <button
+            routerLink="/user"
+            class="btn btn-outline-secondary float-start"
+          >
+            Atras
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary float-end"
+            (click)="generatePdf()"
+            [disabled]="miForm.pristine || miForm.invalid"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

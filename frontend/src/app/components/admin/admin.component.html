@@ -1,0 +1,121 @@
+<div class="header">
+    <!--Content before waves-->
+    <main class="form-signin w-100 m-auto">
+        <div>
+            <form #miFormulario="ngForm" [formGroup]="form" (ngSubmit)="agregarDoctor(miFormulario)" novalidate>
+                <h2 class="h3 pt-4 mb-3 fw-normal">Agregar Personal Médico</h2>
+
+                <div class="form-floating">
+                    <input formControlName="nombre" type="text" class="form-control" name="nombre" id="floatingInput"
+                        placeholder="Ingrese su nombre" [(ngModel)]="servicio.datosUser.nombre" required />
+                    <label class="text-dark" for="floatingInput">Nombre</label>
+                </div>
+
+                <div class="alert alert-danger mt-2" *ngIf="
+            form.controls['nombre'].invalid &&
+            (form.controls['nombre'].dirty || form.controls['nombre'].touched)">
+                    <span> Este campo es obligatorio</span>
+                </div>
+
+                <div class="mt-4 form-floating">
+                    <input formControlName="apellido" type="text" class="form-control" name="apellido"
+                        id="floatingInput" placeholder="Ingrese su apellido" [(ngModel)]="servicio.datosUser.apellido"
+                        required />
+                    <label class="text-dark" for="floatingInput">Apellido</label>
+                </div>
+
+                <div class="alert alert-danger mt-2" *ngIf="
+            form.controls['apellido'].invalid &&
+            (form.controls['apellido'].dirty || form.controls['apellido'].touched)">
+                    <span> Este campo es obligatorio</span>
+                </div>
+
+                <div class="mt-4 form-floating">
+                    <input formControlName="documento" type="text" class="form-control" name="documento"
+                        id="floatingInput" placeholder="Ingrese su número de documento"
+                        [(ngModel)]="servicio.datosUser.documento" required />
+                    <label class="text-dark" for="floatingInput">Número de documento</label>
+                </div>
+
+                <div class="alert alert-danger mt-2" *ngIf="
+            form.controls['documento'].invalid &&
+            (form.controls['documento'].dirty || form.controls['documento'].touched)">
+                    <span> Este campo es obligatorio</span>
+                </div>
+
+                <div class="mt-4 form-floating">
+                    <p>
+                        <select formControlName="especialidad" type="text" class="form-control" name="especialidad"
+                            id="floatingInput" placeholder="Ingrese su especialidad"
+                            [(ngModel)]="servicio.datosDoc.especialidad" required>
+                            <option selected>Especialidad</option>
+                            <option *ngFor="let item of lista">{{item}}</option>
+
+                        </select>
+
+                </div>
+
+                <div class="alert alert-danger mt-2" *ngIf="
+              form.controls['especialidad'].invalid &&
+              (form.controls['especialidad'].dirty || form.controls['especialidad'].touched)">
+                    <span> Este campo es obligatorio</span>
+                </div>
+
+                <div class="mt-4 form-floating">
+                    <input formControlName="correo" type="email" class="form-control" name="correo" id="floatingInput"
+                        placeholder="name@example.com" [(ngModel)]="servicio.datosDoc.correo" />
+                    <label class="text-dark" for="floatingInput">Correo Electrónico</label>
+                </div>
+
+                <div class="alert alert-danger mt-2" *ngIf="
+            form.controls['correo'].invalid &&
+            (form.controls['correo'].dirty || form.controls['correo'].touched)">
+                    <span> Este campo es obligatorio</span>
+                </div>
+
+                <div class="mt-4 form-floating">
+                    <input formControlName="password" type="password" class="form-control" name="password"
+                        id="floatingPassword" placeholder="Password" [(ngModel)]="servicio.datosDoc.password" />
+                    <label class="text-dark" for="floatingPassword">Contraseña</label>
+                </div>
+
+                <div class="alert alert-danger mt-2" *ngIf="
+              form.controls['password'].invalid &&
+              (form.controls['password'].dirty || form.controls['password'].touched)">
+                    <span> Este campo es obligatorio</span>
+                </div>
+
+                <div class="mt-4 form-floating">
+                    <select formControlName="role" name="role" class="form-control"
+                        [(ngModel)]="servicio.datosDoc.role">
+                        <option value="doctor">Doctor</option>
+                    </select>
+                    <label class="text-dark" for="floatingInput">Role</label>
+                </div>
+                <br />
+                <button type="submit" class="btn_login w-100 btn btn-lg text-white"
+                    [disabled]="form.pristine || form.invalid">
+                    Continuar
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!--Waves Container-->
+    <div>
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+        </svg>
+    </div>
+    <!--Waves end-->
+</div>
+<!--Header ends-->

@@ -1,0 +1,53 @@
+<br />
+<br />
+<br />
+<br />
+<div class="container mt-5">
+  <ng-container *ngIf="msg == true">
+    <div class="alert alert-success" role="alert">
+      <h5 class="text-center">Cita completada con éxito</h5>
+    </div>
+  </ng-container>
+  <div class="row">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="card">
+        <div class="card-body text-center">
+          <span class="titulo">Listado de citas</span>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <!-- titulos -->
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Identificación</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Email</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cita of listaCitas; let i = index" [attr.id]="i">
+                <td class="p-1">{{ cita.nombres }}</td>
+                <td class="p-1">{{ cita.apellidos }}</td>
+                <td class="p-1">{{ cita.cc }}</td>
+                <td class="p-1">{{ cita.telefono }}</td>
+                <td class="p-1">{{ cita.email }}</td>
+                <td class="p-1">{{ cita.especialidad }}</td>
+                <td class="p-1">{{ cita.fecha }}</td>
+                <td class="p-1">{{ cita.time }}</td>
+                <td>
+                  <a class="check" (click)="remove(i)">
+                    <i class="btn btn-danger text-dark fa-solid fa-check"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

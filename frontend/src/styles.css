@@ -1,1 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    font-family: 'Inter Tight', sans-serif ;
+
+}
+
+.titulo{
+ font-size: 1.8rem;
+}
+
+.header {
+  background-color: #0AB773;
+}
+
+.first-img{
+  padding-top: 60px;
+}
+
+.boton:hover span{
+    left: -10%;
+}
+
+.boton:hover{
+    background: rgb(71, 70, 70);
+    box-shadow: 0 5px 5px black;
+}
+
+.btn_login{
+    background-color: #0CDB8A;
+}
+
+.btn1, .btn2{
+    padding: 15px 18px;
+}
+
+.back, a{
+    color: #0CDB8A;
+    text-decoration: none;
+
+}
+
+.txt{
+  color: #000000;
+  position: relative;
+  padding: 20px 50px;
+
+}
+
+
+.form-signin {
+  max-width: 800px;
+  margin-right: 1000px;
+  margin-bottom: 100px;
+  padding-top: 100px;
+  padding-right: 166px;
+  padding-left: 166px;
+
+  
+}
+
+.form-register {
+    max-width: 800px;
+    margin-right: 1000px;
+    margin-bottom: 10px;
+    padding-top: 30px;
+    padding-right: 166px;
+    padding-left: 166px;
+  }
+
+

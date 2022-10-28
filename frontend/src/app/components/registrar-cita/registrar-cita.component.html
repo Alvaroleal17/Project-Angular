@@ -1,0 +1,268 @@
+<br />
+<br />
+<br />
+<br />
+<div class="container-fluid mt-5">
+  <div class="row ms-5">
+    <div class="col-11 text-center">
+      <span class="titulo">Agendar Citas</span>
+      <br />
+      <br />
+      <form
+        class="container"
+        [formGroup]="crearCita"
+        (ngSubmit)="agregarCita()"
+        novalidate
+      >
+        <ng-container *ngIf="msg == true">
+          <div class="alert alert-success" role="alert">
+            <h5 class="text-center">Cita agendada con éxito</h5>
+          </div>
+        </ng-container>
+        <div class="row">
+          <div class="col">
+            <label style="margin-right: 530px; padding-bottom: 10px"
+              >Nombres<span class="text-danger">*</span></label
+            >
+            <input type="text" class="form-control" formControlName="nombres" />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('nombres')?.hasError('required') &&
+                crearCita.get('nombres')?.touched
+              "
+            >
+              <span>Los nombres son <strong>obligatorios</strong></span>
+            </div>
+          </div>
+          <div class="col">
+            <label style="margin-right: 530px; padding-bottom: 10px"
+              >Apellidos<span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="apellidos"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('apellidos')?.hasError('required') &&
+                crearCita.get('apellidos')?.touched
+              "
+            >
+              <span>Los apellidos son <strong>obligatorios</strong></span>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-3">
+            <label style="margin-right: 140px; padding-bottom: 10px"
+              >Tipo de documento<span class="text-danger">*</span></label
+            >
+            <select type="text" class="form-control" formControlName="iden">
+              <option value="Cedula de Ciudadania">Cédula de Ciudadanía</option>
+              <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+              <option value="Registro Civil">Registro Civil</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('iden')?.hasError('required') &&
+                crearCita.get('iden')?.touched
+              "
+            >
+              <span
+                >Elije un documento de identidad, es<strong>
+                  obligatorio</strong
+                ></span
+              >
+            </div>
+          </div>
+          <div class="col">
+            <label style="margin-right: 270px; padding-bottom: 10px"
+              >Número de documento <span class="text-danger">*</span></label
+            >
+            <input type="text" class="form-control" formControlName="cc" />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('cc')?.hasError('required') &&
+                crearCita.get('cc')?.touched
+              "
+            >
+              <span
+                >El número de identidad es<strong> obligatorio</strong></span
+              >
+            </div>
+          </div>
+          <div class="col">
+            <label style="margin-right: 290px; padding-bottom: 10px"
+              >Fecha de nacimiento<span class="text-danger">*</span></label
+            >
+            <input
+              type="date"
+              class="form-control"
+              formControlName="nacimiento"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('nacimiento')?.hasError('required') &&
+                crearCita.get('nacimiento')?.touched
+              "
+            >
+              <span
+                >La fecha de nacimiento es <strong>obligatoria</strong></span
+              >
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col">
+            <label style="margin-right: 220px; padding-bottom: 10px"
+              >Telefono<span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="telefono"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('telefono')?.hasError('required') &&
+                crearCita.get('telefono')?.touched
+              "
+            >
+              <span>El teléfono es <strong>obligatorio</strong></span>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label style="margin-right: 460px; padding-bottom: 10px"
+              >Correo electrónico<span class="text-danger">*</span></label
+            >
+            <input type="email" class="form-control" formControlName="email" />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('email')?.hasError('required') &&
+                crearCita.get('email')?.touched
+              "
+            >
+              <span>El correo electrónico es <strong>obligatorio</strong></span>
+            </div>
+          </div>
+          <div class="col">
+            <label style="margin-right: 170px; padding-bottom: 10px"
+              >Departamento <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="departamento"
+            />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('departamento')?.hasError('required') &&
+                crearCita.get('departamento')?.touched
+              "
+            >
+              <span>Elegir la localidad es <strong>obligatoria</strong></span>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col">
+            <label style="margin-right: 290px; padding-bottom: 10px"
+              >Especialidad <span class="text-danger">*</span></label
+            >
+            <select
+              type="text"
+              class="form-control"
+              formControlName="especialidad"
+            >
+              <option value="Odontologia">Odontologia</option>
+              <option value="Pediatria">Pediatria</option>
+              <option value="Cardiologia">Cardiologia</option>
+            </select>
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('especialidad')?.hasError('required') &&
+                crearCita.get('especialidad')?.touched
+              "
+            >
+              <span
+                >Elegir la especialidad es <strong>obligatoria</strong></span
+              >
+            </div>
+          </div>
+
+          <div class="col">
+            <label style="margin-right: 270px; padding-bottom: 10px"
+              >Fecha de la cita <span class="text-danger">*</span></label
+            >
+            <input type="date" class="form-control" formControlName="fecha" />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('fecha')?.hasError('required') &&
+                crearCita.get('fecha')?.touched
+              "
+            >
+              <span>Elije una fecha para tu <strong>cita</strong></span>
+            </div>
+          </div>
+          <div class="col">
+            <label style="margin-right: 270px; padding-bottom: 10px"
+              >Hora de la cita <span class="text-danger">*</span></label
+            >
+            <input type="time" class="form-control" formControlName="time" />
+            <div
+              class="text-danger"
+              *ngIf="
+                crearCita.get('time')?.hasError('required') &&
+                crearCita.get('time')?.touched
+              "
+            >
+              <span>Elije una hora para tu <strong>cita</strong></span>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label"
+            >Descripción de sintomas</label
+          >
+          <textarea
+            class="form-control"
+            type="text"
+            formControlName="descripcion"
+            rows="3"
+          ></textarea>
+        </div>
+        <br />
+        <div class="col mb-5 pb-5">
+          <a routerLink="/user" class="btn btn-outline-secondary float-start">
+            Atras
+          </a>
+          <button
+            type="submit"
+            (click)="mensaje()"
+            class="btn btn-primary float-end"
+            [disabled]="crearCita.pristine || crearCita.invalid"
+          >
+            Aceptar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
