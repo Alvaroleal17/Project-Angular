@@ -1,108 +1,77 @@
 <div class="header">
-  <!--Content before waves-->
   <main class="form-signin w-100 m-auto">
     <div>
-      <form #form="ngForm" (submit)="validarLogin()" novalidate>
-        <h2 class="h3 pt-4 mb-3 fw-normal">Iniciar Sesión</h2>
+      <form #loginForm="ngForm" (ngSubmit)="validarLogin()" novalidate>
+        <h2 class="h3 pt-4 mb-3 fw-normal">Log In</h2>
+        
         <div class="form-floating">
           <input
             type="email"
             class="form-control"
-            name="correo"
-            id="floatingInput"
+            name="emailAddress"
+            id="loginEmail"
             placeholder="name@example.com"
-            [(ngModel)]="servicio.datosUser.correo"
-            ngModel
+            [(ngModel)]="servicio.usersData.emailAddress"
             required
+            #email="ngModel"
           />
-          <label class="text-dark" for="floatingInput"
-            >Correo Electrónico</label
-          >
+          <label class="text-dark" for="loginEmail">Email address</label>
         </div>
+        
         <br />
+
         <div class="form-floating">
           <input
             type="password"
             class="form-control"
             name="password"
-            id="floatingPassword"
+            id="loginPassword"
             placeholder="Password"
-            [(ngModel)]="servicio.datosUser.password"
-            ngModel
+            [(ngModel)]="servicio.usersData.password"
             required
+            #password="ngModel"
           />
-          <label class="text-dark" for="floatingPassword">Contraseña</label>
+          <label class="text-dark" for="loginPassword">Password</label>
         </div>
+
         <br />
-        <ng-container *ngIf="error == true">
-          <div class="alert alert-danger" role="alert">
-            Correo Electrónico o Contraseña incorrecto
-          </div>
-        </ng-container>
-        <br />
+
+        <div class="alert alert-danger" *ngIf="error" role="alert">
+          Email address or Password invalid
+        </div>
+
         <div class="row btn-login">
           <div class="col-md-6 mb-3">
             <button
               type="submit"
               class="btn_login w-100 btn btn-lg text-white"
-              [disabled]="form.invalid"
+              [disabled]="loginForm.invalid"
             >
-              Iniciar Sesión
+              Log In
             </button>
           </div>
           <div class="col-md-6">
-            <a routerLink="/register" class="w-100 btn btn-lg btn-dark"
-              >Registrarme</a
-            >
+            <a routerLink="/register" class="w-100 btn btn-lg btn-dark">Register</a>
           </div>
         </div>
       </form>
-      <div class="back">
+      
+      <div class="back mt-3">
         <i class="bi bi-arrow-left-circle-fill pe-2"></i>
-        <a routerLink="">volver</a>
+        <a routerLink="">Back</a>
       </div>
     </div>
   </main>
 
-  <!--Waves Container-->
   <div>
-    <svg
-      class="waves"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      viewBox="0 24 150 28"
-      preserveAspectRatio="none"
-      shape-rendering="auto"
-    >
-      <defs>
-        <path
-          id="gentle-wave"
-          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-        />
-      </defs>
+    <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
+      <defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/></defs>
       <g class="parallax">
-        <use
-          xlink:href="#gentle-wave"
-          x="48"
-          y="0"
-          fill="rgba(255,255,255,0.7"
-        />
-        <use
-          xlink:href="#gentle-wave"
-          x="48"
-          y="3"
-          fill="rgba(255,255,255,0.5)"
-        />
-        <use
-          xlink:href="#gentle-wave"
-          x="48"
-          y="5"
-          fill="rgba(255,255,255,0.3)"
-        />
+        <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+        <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+        <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
         <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
       </g>
     </svg>
   </div>
-  <!--Waves end-->
 </div>
-<!--Header ends-->

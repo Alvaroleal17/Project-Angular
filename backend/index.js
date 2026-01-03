@@ -6,261 +6,146 @@ const cors = require("cors");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-//Configuraciones
+// Configurations
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-//Mongoose
+// Mongoose Connection
 mongoose
-  .connect(process.env.STRING_CONEXION)
-  .then((db) => {
-    console.log("Conectado a la base de datos");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  .connect("mongodb://127.0.0.1:27017/BD_FinalProyect")
+  .then(() => console.log("Connected Successfully to the DB"))
+  .catch((err) => console.log(err + " Error in order to connect to the DB!"));
 
-//Modelos
-const User = require("./models/usuarios.js");
-const Citas = require("./models/citas.js");
-const incapacidades = require("./models/incapacidades.js");
+// Models
+const User = require("./models/users.js");
+const SickLeave = require("./models/sickLeaves.js");
+const Appointment = require("./models/appointments.js");
 
-//Rutas
+/* ----------------------- User Routes ----------------------------- */
 
-//Usuarios
-app.get("/usuarios", async (req, res) => {
-  const u = await User.find();
-  res.status(200).send(u);
+app.get("/users", async (req, res) => {
+  const users = await User.find();
+  res.status(200).send(users);
 });
 
-app.get("/doctores", async (req, res) => {
-  const u = await User.find();
-  res.status(200).send(u);
-});
-
-//Register
-app.post("/registro", async (req, res) => {
-  const { nombre, apellido, correo, documento, password, especialidad, role } =
-    req.body;
-  const u = {
-    nombre: nombre,
-    apellido: apellido,
-    documento: documento,
-    correo: correo,
-    password: password,
-    especialidad: especialidad,
-    role: role,
-    date: new Date(),
-  };
-  const usuario = new User(u);
-  await usuario.save();
-  const token = jwt.sign({ _id: usuario._id }, "secretKey");
-  res.status(200).json({ token });
-});
-
-//Login
-app.post("/login", async (req, res) => {
-  const { correo, password } = req.body;
-  const user = await User.findOne({ correo });
-  if (!user) return res.status(401).send("Este correo no existe");
-  if (user.password !== password)
-    return res.status(401).send("Contraseña incorrecta");
-
-  const token = jwt.sign({ _id: user._id }, "secretKey");
-  return res.status(200).json({ token });
-});
-
-app.get("/role/:correo", async function (req, res) {
-  const email = req.params.correo;
-  const usuario = await User.findOne({ correo: email });
-  res.send({ role: usuario.role });
-});
-
-async function verifyToken(req, res, next) {
+app.post("/signUp", async (req, res) => {
   try {
-    if (!req.headers.authorization) {
-      return res.status(401).send("Unauhtorized Request");
-    }
-    let token = req.headers.authorization.split(" ")[1];
-    if (token === "null") {
-      return res.status(401).send("Unauhtorized Request");
-    }
-
-    const payload = await jwt.verify(token, "secretKey");
-    if (!payload) {
-      return res.status(401).send("Unauhtorized Request");
-    }
-    req.userId = payload._id;
-    next();
-  } catch (e) {
-    return res.status(401).send("Unauhtorized Request");
-  }
-}
-
-/* ----------------------- citas ----------------------------- */
-
-// obtener citas
-app.get("/citas", async (req, res) => {
-  const cita = await Citas.find();
-  res.status(200).send(cita);
-});
-
-// Agendar Citas
-
-app.post("/registrarcita", async (req, res) => {
-  try {
-    const {
-      nombres,
-      apellidos,
-      iden,
-      cc,
-      nacimiento,
-      telefono,
-      email,
-      departamento,
-      especialidad,
-      fecha,
-      time,
-      descripcion,
-    } = req.body;
-
-    const u = {
-      nombres: nombres,
-      apellidos: apellidos,
-      iden: iden,
-      cc: cc,
-      nacimiento: nacimiento,
-      telefono: telefono,
-      email: email,
-      departamento: departamento,
-      especialidad: especialidad,
-      fecha: fecha,
-      time: time,
-      descripcion: descripcion,
-      date: new Date()
-    };
-
-    const cita = new Citas(u);
-    await cita.save();
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("hubo un error");
-  }
-});
-
-// actualizar la cita
-
-app.put("/editarcita/:id", async (req, res) => {
-  try {
-    const {
-      nombres,
-      apellidos,
-      iden,
-      cc,
-      nacimiento,
-      telefono,
-      email,
-      departamento,
-      especialidad,
-      fecha,
-      time,
-      descripcion,
-    } = req.body;
-    let cita = await Citas.findById(req.params.id);
-    if (!cita) {
-      res.status(404).json({ msg: "no existe la cita" });
-    }
-    (cita.nombres = nombres),
-      (cita.apellidos = apellidos),
-      (cita.iden = iden),
-      (cita.cc = cc),
-      (cita.nacimiento = nacimiento),
-      (cita.telefono = telefono),
-      (cita.email = email),
-      (cita.departamento = departamento),
-      (cita.especialidad = especialidad),
-      (cita.fecha = fecha),
-      (cita.time = time),
-      (cita.descripcion = descripcion);
-
-    cita = await Citas.findByIdAndUpdate({ _id: req.params.id }, cita, {
-      new: true,
+    const { names, lastnames, emailAddress, identificationNumber, password, speciality, role } = req.body;
+    
+    const newUser = new User({
+      names,
+      lastnames,
+      identificationNumber,
+      emailAddress,
+      password,
+      speciality,
+      role,
+      date: new Date(),
     });
-    res.json(cita);
+
+    await newUser.save();
+    const token = jwt.sign({ _id: newUser._id }, "secretKey");
+    res.status(200).json({ token });
   } catch (error) {
-    console.log(error);
-    res.status(500).send("hubo un error");
+    res.status(500).send("Error during sign up");
   }
 });
 
-// obtener la cita por id
-
-app.get("/obtenercita/:id", async (req, res) => {
+app.get("/role/:emailAddress", async function (req, res) {
   try {
-    let cita = await Citas.findById(req.params.id);
-    if (!cita) {
-      res.status(404).json({ msg: "no existe la cita" });
+    const email = req.params.emailAddress; 
+    
+    const foundUser = await User.findOne({ emailAddress: email });
+
+    if (!foundUser) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    res.json(cita);
+    res.json({ role: foundUser.role });
   } catch (error) {
-    console.log(error);
-    res.status(500).send("hubo un error");
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-//borrar cita
-
-app.delete("/borrarcita/:id", async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
-    let cita = await Citas.findById(req.params.id);
-    console.log(cita);
-    if (!cita) {
-      res.status(404).json({ msg: "no existe la cita" });
+    const { emailAddress, password } = req.body;
+    const foundUser = await User.findOne({ emailAddress });
+
+    if (!foundUser) return res.status(401).send("This email address does not exist");
+    if (foundUser.password !== password) return res.status(401).send("Incorrect password");
+
+    const token = jwt.sign({ _id: foundUser._id }, "secretKey");
+    return res.status(200).json({ token });
+  } catch (error) {
+    res.status(500).send("Error during login");
+  }
+});
+
+/* ----------------------- Appointment Routes ----------------------------- */
+
+
+app.get("/appointments", async (req, res) => {
+  try {
+    const { email } = req.query; // Look for the email
+
+    let filter = {};
+    if (email) {
+      filter = {emailAddress: email}; // Filter by the existing email 
     }
-    await Citas.findOneAndRemove({ _id: req.params.id });
-    res.json({ msg: "Cita eliminada con exito!!" });
+
+    const allAppointments = await Appointment.find(filter); 
+    res.status(200).send(allAppointments);
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Error retrieving appointments");
+  }
+});
+
+app.post("/registerAppointment", async (req, res) => {
+  try {
+    const data = req.body;
+    const newAppointment = new Appointment({
+      ...data,
+      date: new Date()
+    });
+    await newAppointment.save();
+    res.status(200).send({ msg: "Appointment saved" });
   } catch (error) {
     console.log(error);
-    res.status(500).send("hubo un error");
+    res.status(500).send("There was an error saving the appointment");
   }
 });
 
-/* ----------------------- Incapacidades ----------------------------- */
-
-app.get("/incapacidad", async (req,res) => {
-const incapacidad = await incapacidades.find();
-res.status(200).send(incapacidad)
+app.delete("/deleteAppointment/:id", async (req, res) => {
+  try {
+    const deleted = await Appointment.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ msg: "Not found" });
+    res.json({ msg: "The appointment was successfully deleted!!" });
+  } catch (error) {
+    res.status(500).send("Error deleting appointment");
+  }
 });
 
-app.post("/registrarincapacidad", async (req,res) => {
-  try{
-    const { documento, numberDoc, nombres, apellidos, correo, incapacidad, dias, tipo } = req.body;
+/* ----------------------- Sick Leave Routes ----------------------------- */
 
-    const i = {
-    documento: documento,
-    numberDoc: numberDoc,
-    nombres: nombres,
-    apellidos: apellidos,
-    correo: correo,
-    incapacidad: incapacidad,
-    dias: dias,
-    tipo: tipo,
-    date: new Date(),
-    }
-
-    const inability = new incapacidades(i);
-    await inability.save();
-
-  }catch (error) {
+app.post("/registerSickLeave", async (req, res) => {
+  try {
+    const data = req.body;
+    const newLeave = new SickLeave({
+      ...data,
+      dateSickLeave: new Date(),
+    });
+    await newLeave.save();
+    res.status(200).send({ msg: "Sick leave registered" });
+  } catch (error) {
     console.log(error);
-    res.status(500).send("hubo un error");
+    res.status(500).send("An error occurred while creating the sick leave data");
   }
 });
 
-
-//Listen
+// Server Start
 app.listen(3000, () => {
-  console.log("Servidor Iniciado");
+  console.log("The server has been started, listening port 3000");
 });

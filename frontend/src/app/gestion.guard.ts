@@ -15,7 +15,7 @@ export class GestionGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    if (this.servicio.usuarioLogeado()) {
+    if (this.servicio.userSignedIn()) {
       let role = '/' + localStorage.getItem('role');
       if (role == this.Location.path() || this.Location.path() == '/login') {
         return true;

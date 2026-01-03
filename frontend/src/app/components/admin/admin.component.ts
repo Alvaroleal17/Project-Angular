@@ -12,17 +12,17 @@ import { FormBuilder } from '@angular/forms';
 })
 export class AdminComponent implements OnInit {
 
-  lista:string[]=["Odontologia","Pediatria","Cardiologia", "Cirugia General", "Dermatologia", "Cirugia Plastica"];
+  lista:string[]=["Dentistry","Pediatrics","Cardiology", "Dermatology", "Gynecology", "Psychiatry", "Neurology", "Oncology"];
  
   form;
 
   constructor(public servicio: GestionService, private ruta: Router, private formBuilder: FormBuilder) {
     this.form = formBuilder.group({
-      nombre: ['',[ Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-      documento: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
-      especialidad: ['', [Validators.required]],
-      correo: ['', [Validators.required, Validators.email]],
+      name: ['',[ Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      lastname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+      identificationNumber: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
+      speciality: ['', [Validators.required]],
+      emailAddress: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
       role: ['', [Validators.required]],
 
@@ -34,8 +34,8 @@ export class AdminComponent implements OnInit {
   }
 
 
-  listadoDoctores() {
-    this.servicio.obtenerUsuarios().subscribe({
+  medicalStaffList() {
+    this.servicio.getUser().subscribe({
       next: (res) => {
         this.servicio.documents = res;
       },
@@ -43,12 +43,12 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  agregarDoctor(form: any) {
-    this.servicio.registroUsuario(form.value).subscribe({
+  addMedicalStaff(form: any) {
+    this.servicio.signUpUsers(form.value).subscribe({
     next: (res) => {
       localStorage.setItem('token', res.token);
       this.ruta.navigate(['/doctor']);
-      this.listadoDoctores();
+      this.medicalStaffList();
       form.reset(); 
     },
     error: (err) => console.log(err)

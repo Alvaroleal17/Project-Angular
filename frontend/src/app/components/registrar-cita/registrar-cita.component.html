@@ -2,267 +2,275 @@
 <br />
 <br />
 <br />
-<div class="container-fluid mt-5">
-  <div class="row ms-5">
-    <div class="col-11 text-center">
-      <span class="titulo">Agendar Citas</span>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 text-center">
+      <span class="titulo">Schedule an appointment</span>
       <br />
       <br />
       <form
-        class="container"
-        [formGroup]="crearCita"
-        (ngSubmit)="agregarCita()"
+        class="text-start shadow p-4 rounded bg-light"
+        [formGroup]="createAppointment"
+        (ngSubmit)="addAppointment()"
         novalidate
       >
-        <ng-container *ngIf="msg == true">
+        <ng-container *ngIf="message == true">
           <div class="alert alert-success" role="alert">
-            <h5 class="text-center">Cita agendada con éxito</h5>
+            <h5 class="text-center">Appointment successfully schedule</h5>
           </div>
         </ng-container>
-        <div class="row">
-          <div class="col">
-            <label style="margin-right: 530px; padding-bottom: 10px"
-              >Nombres<span class="text-danger">*</span></label
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label"
+              >Name<span class="text-danger">*</span></label
             >
-            <input type="text" class="form-control" formControlName="nombres" />
+            <input type="text" class="form-control" formControlName="name" />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('nombres')?.hasError('required') &&
-                crearCita.get('nombres')?.touched
+                createAppointment.get('name')?.hasError('required') &&
+                createAppointment.get('name')?.touched
               "
             >
-              <span>Los nombres son <strong>obligatorios</strong></span>
+              <span>The name is <strong>mandatory</strong></span>
             </div>
           </div>
-          <div class="col">
-            <label style="margin-right: 530px; padding-bottom: 10px"
-              >Apellidos<span class="text-danger">*</span></label
+          <div class="col-md-6">
+            <label class="form-label"
+              >Last name<span class="text-danger">*</span></label
             >
             <input
               type="text"
               class="form-control"
-              formControlName="apellidos"
+              formControlName="lastname"
             />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('apellidos')?.hasError('required') &&
-                crearCita.get('apellidos')?.touched
+                createAppointment.get('lastname')?.hasError('required') &&
+                createAppointment.get('lastname')?.touched
               "
             >
-              <span>Los apellidos son <strong>obligatorios</strong></span>
+              <span>The last name is <strong>mandatory</strong></span>
             </div>
           </div>
         </div>
         <br />
-        <div class="row">
-          <div class="col-3">
-            <label style="margin-right: 140px; padding-bottom: 10px"
-              >Tipo de documento<span class="text-danger">*</span></label
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label"
+              >Type of document<span class="text-danger">*</span></label
             >
-            <select type="text" class="form-control" formControlName="iden">
-              <option value="Cedula de Ciudadania">Cédula de Ciudadanía</option>
-              <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
-              <option value="Registro Civil">Registro Civil</option>
-              <option value="Pasaporte">Pasaporte</option>
+            <select type="text" class="form-control" formControlName="identificationType">
+              <option value="ID card">ID card</option>
+              <option value="Social Security Card">Social Security Card</option>
+              <option value="Drivers License">Drivers License</option>
+              <option value="Passport">Passport</option>
             </select>
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('iden')?.hasError('required') &&
-                crearCita.get('iden')?.touched
+                createAppointment.get('identificationType')?.hasError('required') &&
+                createAppointment.get('identificationType')?.touched
               "
             >
               <span
-                >Elije un documento de identidad, es<strong>
-                  obligatorio</strong
+                >Choose a type of document, it is<strong>
+                  mandatory</strong
                 ></span
               >
             </div>
           </div>
-          <div class="col">
-            <label style="margin-right: 270px; padding-bottom: 10px"
-              >Número de documento <span class="text-danger">*</span></label
+          <div class="col-md-4">
+            <label class="form-label"
+              >Identification number <span class="text-danger">*</span></label
             >
-            <input type="text" class="form-control" formControlName="cc" />
+            <input type="text" class="form-control" formControlName="identificationNumber" />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('cc')?.hasError('required') &&
-                crearCita.get('cc')?.touched
+                createAppointment.get('identificationNumber')?.hasError('required') &&
+                createAppointment.get('identificationNumber')?.touched
               "
             >
               <span
-                >El número de identidad es<strong> obligatorio</strong></span
+                >the identification number is <strong>mandatory</strong></span
               >
             </div>
           </div>
-          <div class="col">
-            <label style="margin-right: 290px; padding-bottom: 10px"
-              >Fecha de nacimiento<span class="text-danger">*</span></label
+          <div class="col-md-4">
+            <label class="form-label"
+              >Date of birth<span class="text-danger">*</span></label
             >
             <input
               type="date"
               class="form-control"
-              formControlName="nacimiento"
+              formControlName="dateBirth"
             />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('nacimiento')?.hasError('required') &&
-                crearCita.get('nacimiento')?.touched
+                createAppointment.get('dateBirth')?.hasError('required') &&
+                createAppointment.get('dateBirth')?.touched
               "
             >
               <span
-                >La fecha de nacimiento es <strong>obligatoria</strong></span
+                >The date of birth is <strong>mandatory</strong></span
               >
             </div>
           </div>
         </div>
         <br />
-        <div class="row">
-          <div class="col">
-            <label style="margin-right: 220px; padding-bottom: 10px"
-              >Telefono<span class="text-danger">*</span></label
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label"
+              >Phone number<span class="text-danger">*</span></label
             >
             <input
               type="text"
               class="form-control"
-              formControlName="telefono"
+              formControlName="phoneNumber"
             />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('telefono')?.hasError('required') &&
-                crearCita.get('telefono')?.touched
+                createAppointment.get('phoneNumber')?.hasError('required') &&
+                createAppointment.get('phoneNumber')?.touched
               "
             >
-              <span>El teléfono es <strong>obligatorio</strong></span>
+              <span>The phone number is <strong>mandatory</strong></span>
             </div>
           </div>
 
-          <div class="col-6">
-            <label style="margin-right: 460px; padding-bottom: 10px"
-              >Correo electrónico<span class="text-danger">*</span></label
+          <div class="col-md-4">
+            <label class="form-label text-nowrap"
+              >Email address<span class="text-danger">*</span></label
             >
-            <input type="email" class="form-control" formControlName="email" />
+            <input type="email" class="form-control" formControlName="emailAddress" />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('email')?.hasError('required') &&
-                crearCita.get('email')?.touched
+                createAppointment.get('emailAddress')?.hasError('required') &&
+                createAppointment.get('emailAddress')?.touched
               "
             >
-              <span>El correo electrónico es <strong>obligatorio</strong></span>
+              <span>The email address is <strong>mandatory</strong></span>
             </div>
           </div>
-          <div class="col">
-            <label style="margin-right: 170px; padding-bottom: 10px"
-              >Departamento <span class="text-danger">*</span></label
+          <div class="col-md-4">
+            <label class="form-label"
+              >Location<span class="text-danger">*</span></label
             >
             <input
               type="text"
               class="form-control"
-              formControlName="departamento"
+              formControlName="location"
             />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('departamento')?.hasError('required') &&
-                crearCita.get('departamento')?.touched
-              "
+                createAppointment.get('location')?.hasError('required') &&
+                createAppointment.get('location')?.touched
+              "location
             >
-              <span>Elegir la localidad es <strong>obligatoria</strong></span>
+              <span>Choosing the location is <strong>mandatory</strong></span>
             </div>
           </div>
         </div>
         <br />
-        <div class="row">
-          <div class="col">
-            <label style="margin-right: 290px; padding-bottom: 10px"
-              >Especialidad <span class="text-danger">*</span></label
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label"
+              >Speciality <span class="text-danger">*</span></label
             >
             <select
               type="text"
               class="form-control"
-              formControlName="especialidad"
+              formControlName="speciality"
             >
-              <option value="Odontologia">Odontologia</option>
-              <option value="Pediatria">Pediatria</option>
-              <option value="Cardiologia">Cardiologia</option>
+              <option value="Dentistry">Dentistry</option>
+              <option value="Pediatrics">Pediatrics</option>
+              <option value="Cardiology">Cardiology</option>
+              <option value="Dermatology">Dermatology</option>
+              <option value="Gynecology">Gynecology</option>
+              <option value="Psychiatry">Psychiatry</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Oncology">Oncology</option>
             </select>
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('especialidad')?.hasError('required') &&
-                crearCita.get('especialidad')?.touched
+                createAppointment.get('speciality')?.hasError('required') &&
+                createAppointment.get('speciality')?.touched
               "
             >
               <span
-                >Elegir la especialidad es <strong>obligatoria</strong></span
+                >Choosing a speciality is <strong>mandatory</strong></span
               >
             </div>
           </div>
 
-          <div class="col">
-            <label style="margin-right: 270px; padding-bottom: 10px"
-              >Fecha de la cita <span class="text-danger">*</span></label
+          <div class="col-md-4">
+            <label class="form-label"
+              >Appointment date<span class="text-danger">*</span></label
             >
-            <input type="date" class="form-control" formControlName="fecha" />
+            <input type="date" class="form-control" formControlName="dateAppointment" />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('fecha')?.hasError('required') &&
-                crearCita.get('fecha')?.touched
+                createAppointment.get('dateAppointment')?.hasError('required') &&
+                createAppointment.get('dateAppointment')?.touched
               "
             >
-              <span>Elije una fecha para tu <strong>cita</strong></span>
+              <span>Choose a date for your <strong>appointment</strong></span>
             </div>
           </div>
-          <div class="col">
-            <label style="margin-right: 270px; padding-bottom: 10px"
-              >Hora de la cita <span class="text-danger">*</span></label
+          <div class="col-md-4">
+            <label class="form-label"
+              >Appointment time <span class="text-danger">*</span></label
             >
-            <input type="time" class="form-control" formControlName="time" />
+            <input type="time" class="form-control" formControlName="timeAppointment" />
             <div
               class="text-danger"
               *ngIf="
-                crearCita.get('time')?.hasError('required') &&
-                crearCita.get('time')?.touched
+                createAppointment.get('timeAppointment')?.hasError('required') &&
+                createAppointment.get('timeAppointment')?.touched
               "
             >
-              <span>Elije una hora para tu <strong>cita</strong></span>
+              <span>Choose a time for your <strong>appointment</strong></span>
             </div>
           </div>
         </div>
         <br />
-        <div class="mb-3">
+        <div class="mb-4">
           <label for="exampleFormControlTextarea1" class="form-label"
-            >Descripción de sintomas</label
+            >Description of symptoms</label
           >
           <textarea
             class="form-control"
             type="text"
-            formControlName="descripcion"
+            formControlName="description"
             rows="3"
           ></textarea>
         </div>
         <br />
-        <div class="col mb-5 pb-5">
+        <div class="d-flex justify-content-between align-items-center">
           <a routerLink="/user" class="btn btn-outline-secondary float-start">
-            Atras
+            Back
           </a>
           <button
             type="submit"
-            (click)="mensaje()"
+            (click)="getMessage()"
             class="btn btn-primary float-end"
-            [disabled]="crearCita.pristine || crearCita.invalid"
+            [disabled]="createAppointment.pristine || createAppointment.invalid"
           >
-            Aceptar
+            Confirm
           </button>
         </div>
       </form>
     </div>
   </div>
 </div>
+<br />
+<br />
+<br />

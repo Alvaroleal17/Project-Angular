@@ -3,40 +3,40 @@
 <br />
 <br />
 <div class="container mt-5">
-  <div class="row">
-    <div class="col-lg-10 offset-lg-1">
-      <div class="card">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 text-center">
+      <div class="text-start shadow p-4 rounded bg-light">
         <div class="card-body text-center">
-          <a routerLink="/user" class="btn btn-info float-start"> Atras </a>
-          <span class="titulo">Mis citas</span>
+          <a routerLink="/user" class="btn btn-info float-start"> Back </a>
+          <span class="titulo">My Appointments</span>
           <table class="table table-striped" *ngIf="listaCitas.length > 0">
             <thead>
               <tr>
                 <!-- titulos -->
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">Identificación</th>
-                <th scope="col">Telefono</th>
-                <th scope="col">Email</th>
-                <th scope="col">Especialidad</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Hora</th>
+                <th scope="col">Name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Identification</th>
+                <th scope="col">Phone number</th>
+                <th scope="col">Email address</th>
+                <th scope="col">Speciality</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cita of listaCitas">
-                <td class="p-1">{{ cita.nombres }}</td>
-                <td class="p-1">{{ cita.apellidos }}</td>
-                <td class="p-1">{{ cita.cc }}</td>
-                <td class="p-1">{{ cita.telefono }}</td>
-                <td class="p-1">{{ cita.email }}</td>
-                <td class="p-1">{{ cita.especialidad }}</td>
-                <td class="p-1">{{ cita.fecha }}</td>
-                <td class="p-1">{{ cita.time }}</td>
+              <tr *ngFor="let appointment of listaCitas">
+                <td class="p-1">{{ appointment.name }}</td>
+                <td class="p-1">{{ appointment.lastname }}</td>
+                <td class="p-1">{{ appointment.identificationNumber }}</td>
+                <td class="p-1">{{ appointment.phoneNumber }}</td>
+                <td class="p-1">{{ appointment.emailAddress }}</td>
+                <td class="p-1">{{ appointment.speciality }}</td>
+                <td class="p-1">{{ appointment.dateAppointment }}</td>
+                <td class="p-1">{{ appointment.timeAppointment }}</td>
                 <td>
                   <i
-                    (click)="borrarcita(cita._id)"
+                    (click)="deleteAppointment(appointment._id)"
                     class="bi bi-trash m-1 text-danger"
                   ></i>
                 </td>
@@ -44,18 +44,20 @@
             </tbody>
           </table>
           <h5
-            style="text-align: start; margin-top: 10px"
+            class="form-label"
             *ngIf="listaCitas.length == 0"
           >
-            No tienes citas por el momento
+            You have no appointments at this time
           </h5>
         </div>
       </div>
     </div>
   </div>
+  <br />
+  <br />
   <ng-container *ngIf="msg == true">
     <div class="alert alert-danger" role="alert">
-      <h6 class="text-center">Cita eliminada con éxito</h6>
+      <h6 class="text-center">The appointment has been successfully deleted</h6>
     </div>
   </ng-container>
 </div>

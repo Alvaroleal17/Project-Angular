@@ -1,13 +1,13 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema
 
-var usuario = new Schema ({
-    nombre: String,
-    apellido: String,
-    documento: String,
-    correo: String,
+var user = new Schema ({
+    name: String,
+    lastname: String,
+    identificationNumber: String,
+    emailAddress: String,
     password: String,
-    especialidad: String,
+    speciality: String,
     role: {
         type: String,
         default: "user",
@@ -18,4 +18,4 @@ var usuario = new Schema ({
 {
  versionKey: false
 });
-module.exports = mongoose.model("Usuarios", usuario);
+module.exports = mongoose.model("Users", user);

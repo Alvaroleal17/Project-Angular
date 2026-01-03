@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CrearIncapacidad } from '../models/crearIncapacidad';
+import { makeSickLeave } from '../models/makeSickLeave';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InabilityService {
-  url = "http://localhost:3000/incapacidad/";
-  url2 = "http://localhost:3000/registrarincapacidad/";
+  url = "http://localhost:3000/sickLeave/";
+  url2 = "http://localhost:3000/registerSickLeave/";
 
   constructor(private http: HttpClient) { }
 
-  documents: CrearIncapacidad [] = []
+  documents: makeSickLeave [] = []
 
-  datosIncap: CrearIncapacidad = {
-    documento: "Cedula de Ciudadania",
-    numberDoc: "",
-    nombres: "",
-    apellidos: "",
-    correo: "",
-    incapacidad: "",
-    dias: "",
-    tipo: "",
+  sickLeaveData: makeSickLeave = {
+    identificationType: "ID card",
+    identificationNumber: "",
+    name: "",
+    lastname: "",
+    emailAddress: "",
+    sickLeave: "",
+    daysLeave: "",
+    typeSickLeave: "",
   }
 
-  getCitas(): Observable<any>{
+  getSickLeave(): Observable<any>{
     return this.http.get(this.url)
   }
 
-  guardarIncapacidad(incapacidad: CrearIncapacidad){
-    return this.http.post<any>(this.url2, incapacidad)
+  saveSickLeave(SickLeave: makeSickLeave){
+    return this.http.post<any>(this.url2, SickLeave)
   }
 
 }

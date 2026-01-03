@@ -7,12 +7,12 @@ import { GestionService } from './gestion.service';
 export class TokenInterceptorService implements HttpInterceptor {
 
   
-  constructor(private servicio: GestionService) { }
+  constructor(private service: GestionService) { }
 
   intercept(req: any, next: any) {
     let tokenizeReq = req.clone({
       setHeaders:{
-        Authorization: `Bearer ${this.servicio.getToken()}`
+        Authorization: `Bearer ${this.service.getToken()}`
       }
     });
     return next.handle(tokenizeReq);

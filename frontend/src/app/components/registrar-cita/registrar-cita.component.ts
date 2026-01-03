@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CrearCitas } from 'src/app/models/crearCita';
+import { makeAppointment } from 'src/app/models/makeAppointment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { CitaService } from './../../services/cita.service';
+import { appointmentService } from './../../services/cita.service';
 
 @Component({
   selector: 'app-registrar-cita',
@@ -11,27 +11,27 @@ import { CitaService } from './../../services/cita.service';
   styleUrls: ['./registrar-cita.component.css'],
 })
 export class RegistrarCitaComponent implements OnInit {
-  crearCita: FormGroup;
-  msg = false;
+  createAppointment: FormGroup;
+  message = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
-    private _citaService: CitaService
+    private _citaService: appointmentService
   ) {
-    this.crearCita = this.fb.group({
-      nombres: ['', Validators.required], //aqui podemos colocar validaciones personalizadas
-      apellidos: ['', Validators.required],
-      iden: ['', Validators.required],
-      cc: ['', Validators.required],
-      nacimiento: ['', Validators.required],
-      telefono: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      departamento: ['', Validators.required],
-      especialidad: ['', Validators.required],
-      fecha: ['', Validators.required],
-      time: ['', Validators.required],
-      descripcion: ['', Validators.required],
+    this.createAppointment = this.fb.group({
+      name: ['', Validators.required], //Here we can place custom valitdations 
+      lastname: ['', Validators.required],
+      identificationType: ['', Validators.required],
+      identificationNumber: ['', Validators.required],
+      dateBirth: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      emailAddress: ['', [Validators.required, Validators.email]],
+      location: ['', Validators.required],
+      speciality: ['', Validators.required],
+      dateAppointment: ['', Validators.required],
+      timeAppointment: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
@@ -39,35 +39,35 @@ export class RegistrarCitaComponent implements OnInit {
     
   }
 
-  agregarCita() {
-    const CITA: CrearCitas = {
-      nombres: this.crearCita.get('nombres')?.value,
-      apellidos: this.crearCita.get('apellidos')?.value,
-      iden: this.crearCita.get('iden')?.value,
-      cc: this.crearCita.get('cc')?.value,
-      nacimiento: this.crearCita.get('nacimiento')?.value,
-      telefono: this.crearCita.get('telefono')?.value,
-      email: this.crearCita.get('email')?.value,
-      departamento: this.crearCita.get('departamento')?.value,
-      especialidad: this.crearCita.get('especialidad')?.value,
-      fecha: this.crearCita.get('fecha')?.value,
-      time: this.crearCita.get('time')?.value,
-      descripcion: this.crearCita.get('descripcion')?.value,
+  addAppointment() {
+    const Appointment: makeAppointment = {
+      name: this.createAppointment.get('name')?.value,
+      lastname: this.createAppointment.get('lastname')?.value,
+      identificationType: this.createAppointment.get('identificationType')?.value,
+      identificationNumber: this.createAppointment.get('identificationNumber')?.value,
+      dateBirth: this.createAppointment.get('dateBirth')?.value,
+      phoneNumber: this.createAppointment.get('phoneNumber')?.value,
+      emailAddress: this.createAppointment.get('emailAddress')?.value,
+      location: this.createAppointment.get('location')?.value,
+      speciality: this.createAppointment.get('speciality')?.value,
+      dateAppointment: this.createAppointment.get('dateAppointment')?.value,
+      timeAppointment: this.createAppointment.get('timeAppointment')?.value,
+      description: this.createAppointment.get('description')?.value,
     };
-    this._citaService.guardarcita(CITA).subscribe({
+    this._citaService.saveAppointment(Appointment).subscribe({
       next: (data) => {
         this.router.navigate(['/user']);
       },
       error: (error) => {
         console.log(error);
-        this.crearCita.reset();
+        this.createAppointment.reset();
       }
    });
 
   }
 
-  mensaje(){
-    this.msg = true;
-    setTimeout( ()=>{this.msg = false}, 2000) 
+  getMessage(){
+    this.message = true;
+    setTimeout( ()=>{this.message = false}, 2000) 
   }
 }

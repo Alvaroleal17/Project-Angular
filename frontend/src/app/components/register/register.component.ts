@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GestionService } from 'src/app/services/gestion.service';
-import { Validators } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'register',
@@ -10,48 +9,58 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
- 
-  form;
+  
+  form: FormGroup;
 
-
-  constructor(public servicio: GestionService, private ruta: Router, private formBuilder: FormBuilder) {
-    this.form = formBuilder.group({
-      nombre: ['',[ Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-      apellido: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
-      correo: ['', [Validators.required, Validators.email]],
+  constructor(
+    public servicio: GestionService, 
+    private ruta: Router, 
+    private formBuilder: FormBuilder
+  ) {
+    // Initialize the Reactive Form
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      lastname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      emailAddress: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
+      role: ['user'],
+      identificationNumber: ['0'] 
     });
   }
-
 
   ngOnInit(): void {
     this.listadoUsuarios();
-
-    
   }
-
-
- 
+  
   listadoUsuarios() {
-    this.servicio.obtenerUsuarios().subscribe({
+    this.servicio.getUser().subscribe({
       next: (res) => {
         this.servicio.documents = res;
       },
-      error: (err) => console.log(err),
+      error: (err) => console.error('Error fetching users:', err),
     });
   }
 
-  agregarUsuario(form: any) {
-    this.servicio.registroUsuario(form.value).subscribe({
-      next: (res) => {
-        localStorage.setItem('token', res.token);
-        this.ruta.navigate(['/user']);
-        this.listadoUsuarios();
-        form.reset();
-      },
-      error: (err) => console.log(err),
-    });
-  }
+  agregarUsuario() {
+    if (this.form.valid) {
+      const rawData = this.form.value;
+      const userToSave = {
+        name: rawData.name,
+        lastname: rawData.lastname,
+        emailAddress: rawData.emailAddress,
+        password: rawData.password,
+        role: rawData.role,
+        identificationNumber: rawData.identificationNumber
+      };
 
- 
+      this.servicio.signUpUsers(userToSave).subscribe({
+        next: (res) => {
+          localStorage.setItem('token', res.token);
+          this.ruta.navigate(['/user']);
+          this.form.reset();
+        },
+        error: (err) => console.error('Registration error:', err),
+      });
+    }
+  }
 }

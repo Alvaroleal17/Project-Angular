@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Usuario_modelo } from '../models/usuarios';
+import { usersModel } from '../models/users';
 import { Router } from '@angular/router'
-import { Doctor_modelo } from '../models/doctores';
+import { doctorsModel } from '../models/doctors';
 
 @Injectable({
   providedIn: 'root'
@@ -14,50 +14,50 @@ export class GestionService {
   private URL_API = 'http://localhost:3000';
 
 
-  datosDoc: Doctor_modelo = {
-    nombre: "",
-    apellido: "",
-    documento: "",
-    correo: "",
+  doctorsData: doctorsModel= {
+    name: "",
+    lastname: "",
+    identificationNumber: "",
+    emailAddress: "",
     password: "",
-    especialidad: "",
+    speciality: "",
     role: "doctor",
   }
 
-  documents: Usuario_modelo[] = [];
+  documents: usersModel[] = [];
 
-  datosUser: Usuario_modelo = {
-    nombre: "",
-    apellido: "",
-    documento: "",
-    correo: "",
+  usersData: usersModel = {
+    name: "",
+    lastname: "",
+    identificationNumber: "",
+    emailAddress: "",
     password: "",
     role: "",
   }
 
 
-  obtenerUsuarios(){
-    let peticion  = this.http.get<Usuario_modelo[]>(this.URL_API + '/usuarios')
-    return peticion;
+  getUser(){
+    let call  = this.http.get<usersModel[]>(this.URL_API + '/users')
+    return call;
   }
 
-  registroUsuario(datos: Usuario_modelo){
-    let peticion = this.http.post<any>(this.URL_API + '/registro', datos);
-    return peticion
+  signUpUsers(personalData: usersModel){
+    let call = this.http.post<any>(this.URL_API + '/signUp', personalData);
+    return call
   }
 
 
-  loginUsuario(datos: Usuario_modelo){
-    let peticion = this.http.post<any>(this.URL_API + '/login', datos);
-    return peticion
+  loginUsers(personalData: usersModel){
+    let call = this.http.post<any>(this.URL_API + '/login', personalData);
+    return call
   }
 
-  obtenerRoleUser(correo: string) {
-    let peticion = this.http.get<any>(this.URL_API + '/role/' + correo);
-    return peticion;
+  getUsersRole(correo: string) {
+    let call = this.http.get<any>(this.URL_API + '/role/' + correo);
+    return call;
     }
 
-  usuarioLogeado(){
+  userSignedIn(){
     return !!localStorage.getItem("token")
   }
 
@@ -65,7 +65,7 @@ export class GestionService {
     return localStorage.getItem('token');
   }
 
-  cerrarSesion(){
+  signOut(){
     localStorage.removeItem('token');
     this.ruta.navigate(['/']);
   }

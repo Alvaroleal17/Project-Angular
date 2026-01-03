@@ -1,7 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
-import { CitaService } from './../../services/cita.service';
+import { appointmentService } from './../../services/cita.service';
 import { Component, OnInit } from '@angular/core';
-import { CrearCitas } from 'src/app/models/crearCita';
+import { makeAppointment } from 'src/app/models/makeAppointment';
 
 @Component({
   selector: 'app-listacitas',
@@ -9,20 +9,25 @@ import { CrearCitas } from 'src/app/models/crearCita';
   styleUrls: ['./listacitas.component.css'],
 })
 export class ListacitasComponent implements OnInit {
-  listaCitas: CrearCitas[] = [];
+  listaCitas: makeAppointment[] = [];
   msg = false;
 
   constructor(
-    private _citaService: CitaService,
+    private _citaService: appointmentService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.citas();
+    this.appointments();
   }
 
-  citas() {
-    this._citaService.getCitas().subscribe(
+  appointments() {
+    const loggedInEmail = localStorage.getItem('emailAddress');
+
+    // console.log("Filtering for email:", loggedInEmail);
+
+    if (loggedInEmail){
+      this._citaService.getAppointment(loggedInEmail).subscribe(
       (data) => {
         console.log(data);
         this.listaCitas = data;
@@ -31,14 +36,16 @@ export class ListacitasComponent implements OnInit {
         console.log(error);
       }
     );
+    }
+    
   }
 
-  borrarcita(id: any) {
-    this._citaService.borrarcita(id).subscribe(
+  deleteAppointment(id: any) {
+    this._citaService.deleteAppointment(id).subscribe(
       (data) => {
         this.msg = true;
         setTimeout( ()=>{this.msg = false}, 1000) 
-        this.citas();
+        this.appointments();
       },
       (error) => {
         console.log(error);

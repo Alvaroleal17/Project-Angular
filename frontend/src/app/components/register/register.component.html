@@ -1,170 +1,104 @@
 <div class="header">
-  <!--Content before waves-->
   <main class="form-signin w-100 m-auto">
     <div>
       <form
-        #miFormulario="ngForm"
         [formGroup]="form"
-        (ngSubmit)="agregarUsuario(miFormulario)"
+        (ngSubmit)="agregarUsuario()"
         novalidate
       >
-        <h2 class="h3 pt-4 mb-3 fw-normal">Registrarme</h2>
+        <h2 class="h3 pt-4 mb-3 fw-normal">Register</h2>
 
-        <div class="form-floating">
+        <div class="form-floating mb-4">
           <input
-            formControlName="nombre"
+            formControlName="name"
             type="text"
             class="form-control"
-            id="floatingInput"
-            placeholder="Ingrese su nombre"
-            name="nombre"
-            [(ngModel)]="servicio.datosUser.nombre"
+            id="regName"
+            placeholder="Enter your name"
           />
-          <label class="text-dark" for="floatingInput">Nombre</label>
+          <label class="text-dark" for="regName">Name</label>
 
-          <div
-            class="alert alert-danger mt-2"
-            *ngIf="
-              form.controls['nombre'].invalid &&
-              (form.controls['nombre'].dirty || form.controls['nombre'].touched)
-            "
-          >
-            <span> El nombre es obligatorio </span>
+          <div class="alert alert-danger mt-2" *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+            <span *ngIf="form.get('name')?.errors?.['required']">The name is <strong>mandatory</strong></span>
+            <span *ngIf="form.get('name')?.errors?.['minlength']">Minimum 3 characters required</span>
           </div>
         </div>
 
-        <div class="mt-4 form-floating">
+        <div class="form-floating mb-4">
           <input
-            formControlName="apellido"
+            formControlName="lastname"
             type="text"
             class="form-control"
-            id="floatingInput"
-            placeholder="Ingrese su apellido"
-            name="apellido"
-            [(ngModel)]="servicio.datosUser.apellido"
+            id="regLastname"
+            placeholder="Enter your lastname"
           />
-          <label class="text-dark" for="floatingInput">Apellido</label>
+          <label class="text-dark" for="regLastname">Last name</label>
 
-          <div
-            class="alert alert-danger mt-2"
-            *ngIf="
-              form.controls['apellido'].invalid &&
-              (form.controls['apellido'].dirty ||
-                form.controls['apellido'].touched)
-            "
-          >
-            <span> El apellido es obligatorio </span>
+          <div class="alert alert-danger mt-2" *ngIf="form.get('lastname')?.invalid && (form.get('lastname')?.dirty || form.get('lastname')?.touched)">
+            <span>The last name is <strong>mandatory</strong></span>
           </div>
         </div>
 
-        <div class="mt-4 form-floating">
+        <div class="form-floating mb-4">
           <input
-            formControlName="correo"
+            formControlName="emailAddress"
             type="email"
             class="form-control"
-            name="correo"
-            id="floatingInput"
+            id="regEmail"
             placeholder="name@example.com"
-            [(ngModel)]="servicio.datosUser.correo"
           />
-          <label class="text-dark" for="floatingInput"
-            >Correo Electrónico</label
-          >
+          <label class="text-dark" for="regEmail">Email address</label>
 
-          <div
-            class="alert alert-danger mt-2"
-            *ngIf="
-              form.controls['correo'].invalid &&
-              (form.controls['correo'].dirty || form.controls['correo'].touched)
-            "
-          >
-            <span> El correo es obligatorio </span>
+          <div class="alert alert-danger mt-2" *ngIf="form.get('emailAddress')?.invalid && (form.get('emailAddress')?.dirty || form.get('emailAddress')?.touched)">
+            <span *ngIf="form.get('emailAddress')?.errors?.['required']">The email is <strong>mandatory</strong></span>
+            <span *ngIf="form.get('emailAddress')?.errors?.['email']">Please enter a valid email</span>
           </div>
         </div>
 
-        <div class="mt-4 form-floating">
+        <div class="form-floating mb-4">
           <input
             formControlName="password"
             type="password"
             class="form-control"
-            name="password"
-            id="floatingPassword"
+            id="regPassword"
             placeholder="Password"
-            [(ngModel)]="servicio.datosUser.password"
           />
-          <label class="text-dark" for="floatingPassword">Contraseña</label>
+          <label class="text-dark" for="regPassword">Password</label>
 
-          <div
-            class="alert alert-danger mt-2"
-            *ngIf="
-              form.controls['password'].invalid &&
-              (form.controls['password'].dirty ||
-                form.controls['password'].touched)
-            "
-          >
-            <span> La contraseña es obligatoria </span>
+          <div class="alert alert-danger mt-2" *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
+            <span>Password must be between 5 and 15 characters</span>
           </div>
         </div>
 
         <h6 class="txt">
-          ¿Ya tienes una cuenta? <a routerLink="/login">Iniciar Sesión</a>
+          Do you already have an account? <a routerLink="/login">Log in</a>
         </h6>
+        
         <button
           type="submit"
           class="btn_login w-100 btn btn-lg text-white"
-          [disabled]="form.pristine || form.invalid"
+          [disabled]="form.invalid"
         >
-          Continuar
+          Continue
         </button>
       </form>
-      <br />
-      <br />
-      <div class="back containe">
+
+      <div class="back container mt-4">
         <i class="bi bi-arrow-left-circle-fill back pe-2"></i>
-        <a routerLink="">volver</a>
+        <a routerLink="">Back</a>
       </div>
     </div>
   </main>
 
-  <!--Waves Container-->
   <div>
-    <svg
-      class="waves"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      viewBox="0 24 150 28"
-      preserveAspectRatio="none"
-      shape-rendering="auto"
-    >
-      <defs>
-        <path
-          id="gentle-wave"
-          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-        />
-      </defs>
+    <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
+      <defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/></defs>
       <g class="parallax">
-        <use
-          xlink:href="#gentle-wave"
-          x="48"
-          y="0"
-          fill="rgba(255,255,255,0.7"
-        />
-        <use
-          xlink:href="#gentle-wave"
-          x="48"
-          y="3"
-          fill="rgba(255,255,255,0.5)"
-        />
-        <use
-          xlink:href="#gentle-wave"
-          x="48"
-          y="5"
-          fill="rgba(255,255,255,0.3)"
-        />
+        <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+        <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+        <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
         <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
       </g>
     </svg>
   </div>
-  <!--Waves end-->
 </div>
-<!--Header ends-->

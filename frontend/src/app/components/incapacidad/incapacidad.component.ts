@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CrearIncapacidad } from 'src/app/models/crearIncapacidad';
+import { makeSickLeave } from 'src/app/models/makeSickLeave';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -15,157 +15,105 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs
   styleUrls: ['./incapacidad.component.css']
 })
 export class IncapacidadComponent implements OnInit {
+  makeSickLeave: FormGroup;
 
-  crearIncapacidad: FormGroup;
-
-  constructor(public servicioIncap: InabilityService, private ruta: Router, private formBuilder: FormBuilder,     private toastr: ToastrService,
-    ) {
-    this.crearIncapacidad = this.formBuilder.group({
-      documento: ['', Validators.required],
-      numberDoc: ['', Validators.required],
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      correo: ['', [Validators.required, Validators.email]],
-      incapacidad: ['', Validators.required],
-      dias: ["", [Validators.required, Validators.minLength(1)]],
-      tipo: ['', Validators.required],
-
-
+  constructor(
+    public servicioIncap: InabilityService, 
+    private ruta: Router, 
+    private formBuilder: FormBuilder, 
+    private toastr: ToastrService
+  ) {
+    this.makeSickLeave = this.formBuilder.group({
+      identificationType: ['', Validators.required],
+      identificationNumber: ['', Validators.required],
+      name: ['', Validators.required],
+      lastname: ['', Validators.required],
+      emailAddress: ['', [Validators.required, Validators.email]],
+      sickLeave: ['', Validators.required],
+      daysLeave: ["", [Validators.required, Validators.min(1)]], // Fixed: daysLeave to match HTML
+      typeSickLeave: ['', Validators.required],
     });
-   }
+  }
 
-   generatePdf(){
+  generatePdf() {
+    const formValues = this.makeSickLeave.value;
 
     const documentDefinition: any = {
-       content: [
-        {
-          text: 'COMPRABANTE DE INCAPACIDADES',
-          bold: true,
-          fontSize: 20,
-          alignment: 'center',
-          margin: [0, 0, 0, 20],
-        },
+      content: [
+        { text: 'PROOF OF SICK LEAVE', bold: true, fontSize: 20, alignment: 'center', margin: [0, 0, 0, 20] },
         {
           table: {
             widths: [488],
+            body: [[{ text: 'PATIENT DATA', alignment: 'center', fontSize: 16, margin: [5, 5, 5, 5], bold: true, color: '#120CDB' }]]
+          }
+        },
+        {
+          table: {
+            margin: [0, 0, 0, 50],
+            widths: [150, 150, 170],
             body: [
-              [
-                {text:'DATOS DEL PACIENTE',alignment: 'center',fontSize: 16,margin: [5, 5, 5, 5], bold: true,
-                color: '#120CDB',}
-              
-              ]
+              [{ text: 'Name', bold: true }, { text: 'Last name', bold: true }, { text: 'Identification number', bold: true }],
+              [formValues.name, formValues.lastname, formValues.identificationNumber]
             ]
           }
         },
         {
           table: {
-           margin: [0, 0, 0, 50],
-           widths: [150, 150, 170 ],
-           body:  [
-              [
-                {text: 'Nombres', bold: true,},
-                {text: 'Apellidos', bold: true},
-                {text: 'Número de documento', bold: true},
-              ],
-              [
-                this.servicioIncap.datosIncap.nombres,
-                this.servicioIncap.datosIncap.apellidos,
-                this.servicioIncap.datosIncap.numberDoc,
-              ],
-              
-            ]
-          },
+            widths: [488],
+            body: [[{ text: 'SICK LEAVE DATA', alignment: 'center', fontSize: 16, margin: [5, 5, 5, 5], bold: true, color: '#120CDB' }]]
+          }
         },
         {
           table: {
-            widths: [488],
+            margin: [0, 0, 0, 50],
+            widths: [150, 150, 170],
             body: [
-              [
-                {text:'DATOS DE LA INCAPACIDAD',alignment: 'center',fontSize: 16,margin: [5, 5, 5, 5], bold: true,
-                color: '#120CDB',}
-              
-              ]
+              [{ text: 'Start Date', bold: true }, { text: 'Days Requested', bold: true }, { text: 'Type of Sick Leave ', bold: true }],
+              [formValues.sickLeave, formValues.daysLeave, formValues.typeSickLeave] // Values from form
             ]
           }
         },
         {
           table: {
-           margin: [0, 0, 0, 50],
-           widths: [150, 150, 170 ],
-           body:  [
-              [
-                {text: 'Fecha de inicio', bold: true},
-                {text: 'Días solicitados', bold: true},
-                {text: 'Tipo de incapacidad', bold: true},
-              ],
-              [
-                this.servicioIncap.datosIncap.incapacidad,
-                this.servicioIncap.datosIncap.dias,
-                this.servicioIncap.datosIncap.tipo,
-              ],
-              
-            ]
-          },
-        },
-        {
-          table: {
             widths: [488],
-            body: [
-              [
-                {text:'FIRMA:',fontSize: 10,margin: [5, 5, 5, 5], bold: true,}
-              ]
-            ]
+            body: [[{ text: 'Signature:', fontSize: 10, margin: [5, 5, 5, 5], bold: true }]]
           }
         },
-       ]
-       
-   }
-   const pdf = pdfMake.createPdf(documentDefinition);
-   pdf.open();
+      ]
+    };
+    pdfMake.createPdf(documentDefinition).open();
   }
 
   ngOnInit(): void {}
 
-  listadoIncapacidades() {
-    this.servicioIncap.getCitas().subscribe({
-      next: (res) => {
-        this.servicioIncap.documents = res;
-      },
-      error: (err) => console.log(err),
-    });
-  }
-
-  agregarIncapacidad() {
-    const incapacidad: CrearIncapacidad = {
-      documento: this.crearIncapacidad.get('documento')?.value,
-      numberDoc: this.crearIncapacidad.get('numberDoc')?.value,
-      nombres: this.crearIncapacidad.get('nombres')?.value,
-      apellidos: this.crearIncapacidad.get('apellidos')?.value,
-      correo: this.crearIncapacidad.get('correo')?.value,
-      incapacidad: this.crearIncapacidad.get('incapacidad')?.value,
-      dias: this.crearIncapacidad.get('dias')?.value,
-      tipo: this.crearIncapacidad.get('tipo')?.value,
+  addSickLeave() {
+    if (this.makeSickLeave.invalid) {
+      this.toastr.error('Please fill all required fields');
+      return;
     }
-    this.servicioIncap.guardarIncapacidad(incapacidad).subscribe(
-      (data) => {
-        this.toastr.success(
-          'la incapacidad fue registrada con exito!',
-          'La Incapacidad fue enviada!',
-          
-          {
-            timeOut: 3000,
-            positionClass: 'toast-top-center',
-          }
-        );
+
+    const incapacidad: makeSickLeave = {
+      identificationType: this.makeSickLeave.get('identificationType')?.value,
+      identificationNumber: this.makeSickLeave.get('identificationNumber')?.value,
+      name: this.makeSickLeave.get('name')?.value,
+      lastname: this.makeSickLeave.get('lastname')?.value,
+      emailAddress: this.makeSickLeave.get('emailAddress')?.value,
+      sickLeave: this.makeSickLeave.get('sickLeave')?.value,
+      daysLeave: this.makeSickLeave.get('daysLeave')?.value,
+      typeSickLeave: this.makeSickLeave.get('typeSickLeave')?.value,
+    };
+
+    this.servicioIncap.saveSickLeave(incapacidad).subscribe({
+      next: (data) => {
+        this.toastr.success('The sick leave was successfully registered!', 'Success');
+        this.generatePdf();
+        this.makeSickLeave.reset();
         this.ruta.navigate(['/user']);
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-        this.crearIncapacidad.reset();
+        this.toastr.error('Error saving sick leave');
       }
-    );
+    });
   }
-
-
-
 }

@@ -1,27 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CrearCitas } from '../models/crearCita';
+import { makeAppointment } from '../models/makeAppointment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CitaService {
-  url = "http://localhost:3000/citas/";
-  url2 = "http://localhost:3000/borrarcita/";
-  url3 = "http://localhost:3000/registrarcita/";
+export class appointmentService {
+  // REMOVED trailing slashes to match Express exactly
+  url = "http://localhost:3000/appointments";
+  urlDelete = "http://localhost:3000/deleteAppointment"; 
+  urlRegister = "http://localhost:3000/registerAppointment";
 
   constructor(private http: HttpClient) { }
 
-  getCitas(): Observable<any>{
-    return this.http.get(this.url)
+  getAppointment(email?: string | null){
+    const URL = email ? `${this.url}?email=${email}` : this.url;
+    return this.http.get<makeAppointment[]>(URL);
   }
 
-  borrarcita(id: string): Observable<any>{
-    return this.http.delete(this.url2 + id)
+  deleteAppointment(id: string): Observable<any>{
+    return this.http.delete(`${this.urlDelete}/${id}`);
   }
 
-  guardarcita(cita: CrearCitas): Observable<any>{
-    return this.http.post(this.url3, cita)
+  saveAppointment(cita: makeAppointment): Observable<any>{
+    return this.http.post(this.urlRegister, cita);
   }
 }

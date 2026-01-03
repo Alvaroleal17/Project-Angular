@@ -1,0 +1,15 @@
+export interface makeAppointment{
+    _id?: string,
+    name: string,
+    lastname: string,
+    identificationType: string,
+    identificationNumber: string,
+    dateBirth: string,
+    phoneNumber: string,
+    emailAddress: string,
+    location: string,
+    speciality: string,
+    dateAppointment: string,
+    timeAppointment: string,
+    description: string,    
+}

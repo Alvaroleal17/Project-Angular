@@ -9,54 +9,45 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
- 
-
-  constructor(public servicio: GestionService, private ruta: Router, private route:ActivatedRoute) { }
-
-
-  ngOnInit(): void {
-  }
-
-
-
   error = false;
 
+  constructor(public servicio: GestionService, private ruta: Router, private route: ActivatedRoute) { }
 
-  obtenerRole(){
-    this.servicio.obtenerRoleUser(this.servicio.datosUser.correo).subscribe({
+  ngOnInit(): void { }
+
+  getRole(email: string) {
+    this.servicio.getUsersRole(email).subscribe({
       next: (res) => {
-        //guardar en un localstorage en un res.role
         localStorage.setItem('role', res.role);
-        if(res.role == "user"){
+      
+        // Navigation logic based on role
+        if (res.role === "user") {
           this.ruta.navigate(['user']);
-        }
-        if(res.role == "doctor"){
+        } else if (res.role === "doctor") {
           this.ruta.navigate(['doctor']);
-        }
-        if(res.role == "admin"){
+        } else if (res.role === "admin") {
           this.ruta.navigate(['admin']);
         }
-
       },
-      error: (err) => console.log(err),
+      error: (err) => console.log('Error fetching role:', err),
     });
   }
 
-  validarLogin(){
-    this.servicio.loginUsuario(this.servicio.datosUser).subscribe({
-      next: (res) =>{
-          localStorage.setItem('token', res.token);
-          this.obtenerRole();
+  validarLogin() {
+    const emailToQuery = this.servicio.usersData.emailAddress;
+
+    this.servicio.loginUsers(this.servicio.usersData).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('emailAddress', emailToQuery);
+        this.getRole(emailToQuery);
       },
-      error: (err) =>{
-        if(err.status == 401){
-          this.error = true
+      error: (err) => {
+        if (err.status === 401) {
+          this.error = true;
         }
-        console.log(err)
-      } 
-    })
+        console.log('Login error:', err);
+      }
+    });
   }
-
-
-
 }

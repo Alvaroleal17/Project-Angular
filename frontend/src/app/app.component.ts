@@ -10,5 +10,5 @@ export class AppComponent {
 
   constructor(public servicio: GestionService) {}
 
-  title = 'Frontend';
+  title = 'AMS';
 }

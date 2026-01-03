@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'admin', component: AdminComponent, canActivate: [GestionGuard] },
   { path: 'doctor', component: MedicosComponent, canActivate: [GestionGuard] },
-  { path: 'user', component: UsersComponent },
+  { path: 'user', component: UsersComponent},
   {
     path: 'registrarcita',
     component: RegistrarCitaComponent,

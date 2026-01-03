@@ -2,92 +2,91 @@
     <!--Content before waves-->
     <main class="form-signin w-100 m-auto">
         <div>
-            <form #miFormulario="ngForm" [formGroup]="form" (ngSubmit)="agregarDoctor(miFormulario)" novalidate>
-                <h2 class="h3 pt-4 mb-3 fw-normal">Agregar Personal Médico</h2>
+            <form #miFormulario="ngForm" [formGroup]="form" (ngSubmit)="addMedicalStaff(form)" novalidate>
+                <h2 class="h3 pt-4 mb-3 fw-normal">Add Medical Staff</h2>
 
                 <div class="form-floating">
-                    <input formControlName="nombre" type="text" class="form-control" name="nombre" id="floatingInput"
-                        placeholder="Ingrese su nombre" [(ngModel)]="servicio.datosUser.nombre" required />
-                    <label class="text-dark" for="floatingInput">Nombre</label>
+                    <input formControlName="name" type="text" class="form-control" name="name" id="floatingInput"
+                        placeholder="Insert your name" [(ngModel)]="servicio.usersData.name" required />
+                    <label class="text-dark" for="floatingInput">Name</label>
                 </div>
 
                 <div class="alert alert-danger mt-2" *ngIf="
-            form.controls['nombre'].invalid &&
-            (form.controls['nombre'].dirty || form.controls['nombre'].touched)">
-                    <span> Este campo es obligatorio</span>
+            form.controls['name'].invalid &&
+            (form.controls['name'].dirty || form.controls['name'].touched)">
+                    <span>This field is required</span>
                 </div>
 
                 <div class="mt-4 form-floating">
-                    <input formControlName="apellido" type="text" class="form-control" name="apellido"
-                        id="floatingInput" placeholder="Ingrese su apellido" [(ngModel)]="servicio.datosUser.apellido"
+                    <input formControlName="lastname" type="text" class="form-control" name="lastname"
+                        id="floatingInput" placeholder="Insert your lastname" [(ngModel)]="servicio.usersData.lastname"
                         required />
-                    <label class="text-dark" for="floatingInput">Apellido</label>
+                    <label class="text-dark" for="floatingInput">Last name</label>
                 </div>
 
                 <div class="alert alert-danger mt-2" *ngIf="
-            form.controls['apellido'].invalid &&
-            (form.controls['apellido'].dirty || form.controls['apellido'].touched)">
-                    <span> Este campo es obligatorio</span>
+            form.controls['lastname'].invalid &&
+            (form.controls['lastname'].dirty || form.controls['lastname'].touched)">
+                    <span> This field is required</span>
                 </div>
 
                 <div class="mt-4 form-floating">
-                    <input formControlName="documento" type="text" class="form-control" name="documento"
-                        id="floatingInput" placeholder="Ingrese su número de documento"
-                        [(ngModel)]="servicio.datosUser.documento" required />
-                    <label class="text-dark" for="floatingInput">Número de documento</label>
+                    <input formControlName="identificationNumber" type="text" class="form-control" name="identificationNumber"
+                        id="floatingInput" placeholder="Insert your identification number"
+                        [(ngModel)]="servicio.usersData.identificationNumber" required />
+                    <label class="text-dark" for="floatingInput">Identification number</label>
                 </div>
 
                 <div class="alert alert-danger mt-2" *ngIf="
-            form.controls['documento'].invalid &&
-            (form.controls['documento'].dirty || form.controls['documento'].touched)">
-                    <span> Este campo es obligatorio</span>
+                     form.controls['identificationNumber'].invalid &&
+                    (form.controls['identificationNumber'].dirty || form.controls['identificationNumber'].touched)">
+                    <span>This field is required</span>
                 </div>
 
                 <div class="mt-4 form-floating">
                     <p>
-                        <select formControlName="especialidad" type="text" class="form-control" name="especialidad"
-                            id="floatingInput" placeholder="Ingrese su especialidad"
-                            [(ngModel)]="servicio.datosDoc.especialidad" required>
-                            <option selected>Especialidad</option>
+                        <select formControlName="speciality" type="text" class="form-control" name="speciality"
+                            id="floatingInput" placeholder="Insert your speciality"
+                            [(ngModel)]="servicio.doctorsData.speciality" required>
+                            <option selected>Speciality</option>
                             <option *ngFor="let item of lista">{{item}}</option>
-
                         </select>
 
-                </div>
+                </div> 
 
                 <div class="alert alert-danger mt-2" *ngIf="
-              form.controls['especialidad'].invalid &&
-              (form.controls['especialidad'].dirty || form.controls['especialidad'].touched)">
-                    <span> Este campo es obligatorio</span>
+                    form.controls['speciality'].invalid &&
+                    (form.controls['speciality'].dirty || form.controls['speciality'].touched)">
+                    <span>This field is required</span>
                 </div>
 
                 <div class="mt-4 form-floating">
-                    <input formControlName="correo" type="email" class="form-control" name="correo" id="floatingInput"
-                        placeholder="name@example.com" [(ngModel)]="servicio.datosDoc.correo" />
-                    <label class="text-dark" for="floatingInput">Correo Electrónico</label>
+                    <input formControlName="emailAddress" type="emailAddress" class="form-control" name="emailAddress" id="floatingInput"
+                        placeholder="name@example.com" [(ngModel)]="servicio.doctorsData.emailAddress" />
+                    <label class="text-dark" for="floatingInput">Email address</label>
                 </div>
 
                 <div class="alert alert-danger mt-2" *ngIf="
-            form.controls['correo'].invalid &&
-            (form.controls['correo'].dirty || form.controls['correo'].touched)">
-                    <span> Este campo es obligatorio</span>
+                    form.controls['emailAddress'].invalid &&
+                    (form.controls['emailAddress'].dirty || form.controls['emailAddress'].touched)">
+                    <span>This field is required</span>
                 </div>
 
                 <div class="mt-4 form-floating">
                     <input formControlName="password" type="password" class="form-control" name="password"
-                        id="floatingPassword" placeholder="Password" [(ngModel)]="servicio.datosDoc.password" />
-                    <label class="text-dark" for="floatingPassword">Contraseña</label>
+                        id="floatingPassword" placeholder="Insert a valid password" [(ngModel)]="servicio.doctorsData.password" />
+                    <label class="text-dark" for="floatingPassword">Password</label>
                 </div>
 
                 <div class="alert alert-danger mt-2" *ngIf="
               form.controls['password'].invalid &&
               (form.controls['password'].dirty || form.controls['password'].touched)">
-                    <span> Este campo es obligatorio</span>
+                    <span>This field is required</span>
                 </div>
 
                 <div class="mt-4 form-floating">
                     <select formControlName="role" name="role" class="form-control"
-                        [(ngModel)]="servicio.datosDoc.role">
+                        [(ngModel)]="servicio.doctorsData.role">
                         <option value="doctor">Doctor</option>
                     </select>
                     <label class="text-dark" for="floatingInput">Role</label>
@@ -95,7 +94,7 @@
                 <br />
                 <button type="submit" class="btn_login w-100 btn btn-lg text-white"
                     [disabled]="form.pristine || form.invalid">
-                    Continuar
+                    Continue
                 </button>
             </form>
         </div>

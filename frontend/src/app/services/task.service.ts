@@ -10,17 +10,17 @@ export class TaskService {
   constructor(public http: HttpClient) { }
 
   obtenerUsers(){
-    let peticion  = this.http.get<any>(this.URL_API + '/usuarios')
+    let peticion  = this.http.get<any>(this.URL_API + '/users')
     return peticion;
   }
 
   obtenerDoctors(){
-    let peticion  = this.http.get<any>(this.URL_API + '/doctores')
+    let peticion  = this.http.get<any>(this.URL_API + '/doctors')
     return peticion;
   }
 
   obtenerDoctor(){
-    let peticion  = this.http.get<any>(this.URL_API + '/doctores/ + id')
+    let peticion  = this.http.get<any>(this.URL_API + '/doctors/ + id')
     return peticion;
   }
 

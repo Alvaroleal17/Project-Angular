@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router'
-import { CrearCitas } from 'src/app/models/crearCita';
-import { CitaService } from './../../services/cita.service';
+import { makeAppointment } from 'src/app/models/makeAppointment';
+import { appointmentService } from './../../services/cita.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -16,13 +17,13 @@ import { CitaService } from './../../services/cita.service';
 export class MedicosComponent implements OnInit {
 
   Doctors = [];
-  listaCitas: CrearCitas [] = [];
+  listaCitas: makeAppointment [] = [];
   msg = false;
 
-  constructor(private _citaService: CitaService, public taskService: TaskService, private ruta: Router) { }
+  constructor(private _citaService: appointmentService, public taskService: TaskService, private ruta: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.citas();
+    this.appointments();
     this.taskService.obtenerDoctors().subscribe({
       next: (res) => {
         this.Doctors = res;
@@ -37,11 +38,8 @@ export class MedicosComponent implements OnInit {
     });
   }
 
-
-
-
-  citas() {
-    this._citaService.getCitas().subscribe(
+  appointments() {
+    this._citaService.getAppointment().subscribe(
       (data) => {
         console.log(data);
         this.listaCitas = data;
@@ -52,10 +50,19 @@ export class MedicosComponent implements OnInit {
     );
   }
 
-  remove(row: any){
-    console.log(row)
-    this.msg = true;
-    this.listaCitas.splice(row, 1)
-    setTimeout( ()=>{this.msg = false}, 1500) 
+  remove(appointment: any) {
+    if (appointment._id) {
+      this._citaService.deleteAppointment(appointment._id).subscribe({
+        next: (res) => {
+          this.msg = true;
+          this.appointments();
+          setTimeout(() => { this.msg = false }, 1500);
+        },
+        error: (err) => {
+          this.toastr.error('Error completing appointment');
+          console.error(err);
+        }
+      });
+    }
   }
 }
